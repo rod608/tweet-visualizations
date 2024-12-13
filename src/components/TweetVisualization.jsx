@@ -83,140 +83,6 @@ class TweetVisualization extends Component {
       groupedData.get(month).push(entry);
     });
 
-    updateColors = () => {
-      const { chartType } = this.props;
-
-      const legend = d3.select(".legend");
-      legend.selectAll("svg").remove();
-
-      if (chartType === "Sentiment") {
-        const sentimentColorScaling = d3
-          .scaleLinear()
-          .domain([-1, 0, 1])
-          .range(["red", "#ECECEC", "green"]);
-
-        const legendWidth = 20;
-        const legendHeight = 200;
-
-        const legendSvg = legend
-          .append("svg")
-          .attr("width", legendWidth + 150)
-          .attr("height", legendHeight + 50);
-
-        const legendGroup = legendSvg
-          .append("g")
-          .attr("transform", `translate(0, 10)`);
-
-        const gradient = "legendGradient";
-
-        const defs = legendGroup.append("defs");
-
-        const linearGradient = defs
-          .append("linearGradient")
-          .attr("id", gradient)
-          .attr("x1", "0%")
-          .attr("y1", "0%")
-          .attr("x2", "0%")
-          .attr("y2", "100%");
-
-        linearGradient
-          .append("stop")
-          .attr("offset", "0%")
-          .attr("stop-color", "green");
-
-        linearGradient
-          .append("stop")
-          .attr("offset", "50%")
-          .attr("stop-color", "#ECECEC");
-
-        linearGradient
-          .append("stop")
-          .attr("offset", "100%")
-          .attr("stop-color", "red");
-
-        legendGroup
-          .append("rect")
-          .style("fill", `url(#${gradient})`)
-          .attr("width", legendWidth)
-          .attr("height", legendHeight);
-
-        const legendScale = d3
-          .scaleLinear()
-          .domain([1, -1])
-          .range([0, legendHeight]);
-
-        const legendAxis = d3
-          .axisRight(legendScale)
-          .tickValues([1, -1])
-          .tickFormat((d) => (d === 1 ? "Positive" : "Negative"));
-
-        legendGroup
-          .append("g")
-          .attr("transform", `translate(${legendWidth}, 0)`)
-          .call(legendAxis);
-      } else if (chartType === "Subjectivity") {
-        const subjectivityColorScaling = d3
-          .scaleLinear()
-          .domain([0, 1])
-          .range(["#ECECEC", "#4467C4"]);
-
-        const legendWidth = 20;
-        const legendHeight = 200;
-
-        const legendSvg = legend
-          .append("svg")
-          .attr("width", legendWidth + 150)
-          .attr("height", legendHeight + 50);
-
-        const legendGroup = legendSvg
-          .append("g")
-          .attr("transform", `translate(0, 10)`);
-
-        const gradient = "subjectivityGradient";
-
-        const defs = legendGroup.append("defs");
-
-        const linearGradient = defs
-          .append("linearGradient")
-          .attr("id", gradient)
-          .attr("x1", "0%")
-          .attr("y1", "0%")
-          .attr("x2", "0%")
-          .attr("y2", "100%");
-
-        linearGradient
-          .append("stop")
-          .attr("offset", "0%")
-          .attr("stop-color", "#4467C4");
-
-        linearGradient
-          .append("stop")
-          .attr("offset", "100%")
-          .attr("stop-color", "#ECECEC");
-
-        legendGroup
-          .append("rect")
-          .style("fill", `url(#${gradient})`)
-          .attr("width", legendWidth)
-          .attr("height", legendHeight);
-
-        const legendScale = d3
-          .scaleLinear()
-          .domain([1, 0])
-          .range([0, legendHeight]);
-
-        const legendAxis = d3
-          .axisRight(legendScale)
-          .tickValues([1, 0])
-          .tickFormat((d) => (d === 1 ? "High" : "Low"));
-
-        legendGroup
-          .append("g")
-          .attr("transform", `translate(${legendWidth}, 0)`)
-          .call(legendAxis);
-      }
-    };
-
     groupedData.forEach((monthData, month) => {
       const currsvg = chartsDiv
         .append("div")
@@ -285,6 +151,140 @@ class TweetVisualization extends Component {
     });
 
     this.updateColors();
+  };
+
+  updateColors = () => {
+    const { chartType } = this.props;
+
+    const legend = d3.select(".legend");
+    legend.selectAll("svg").remove();
+
+    if (chartType === "Sentiment") {
+      const sentimentColorScaling = d3
+        .scaleLinear()
+        .domain([-1, 0, 1])
+        .range(["red", "#ECECEC", "green"]);
+
+      const legendWidth = 20;
+      const legendHeight = 200;
+
+      const legendSvg = legend
+        .append("svg")
+        .attr("width", legendWidth + 150)
+        .attr("height", legendHeight + 50);
+
+      const legendGroup = legendSvg
+        .append("g")
+        .attr("transform", `translate(0, 10)`);
+
+      const gradient = "legendGradient";
+
+      const defs = legendGroup.append("defs");
+
+      const linearGradient = defs
+        .append("linearGradient")
+        .attr("id", gradient)
+        .attr("x1", "0%")
+        .attr("y1", "0%")
+        .attr("x2", "0%")
+        .attr("y2", "100%");
+
+      linearGradient
+        .append("stop")
+        .attr("offset", "0%")
+        .attr("stop-color", "green");
+
+      linearGradient
+        .append("stop")
+        .attr("offset", "50%")
+        .attr("stop-color", "#ECECEC");
+
+      linearGradient
+        .append("stop")
+        .attr("offset", "100%")
+        .attr("stop-color", "red");
+
+      legendGroup
+        .append("rect")
+        .style("fill", `url(#${gradient})`)
+        .attr("width", legendWidth)
+        .attr("height", legendHeight);
+
+      const legendScale = d3
+        .scaleLinear()
+        .domain([1, -1])
+        .range([0, legendHeight]);
+
+      const legendAxis = d3
+        .axisRight(legendScale)
+        .tickValues([1, -1])
+        .tickFormat((d) => (d === 1 ? "Positive" : "Negative"));
+
+      legendGroup
+        .append("g")
+        .attr("transform", `translate(${legendWidth}, 0)`)
+        .call(legendAxis);
+    } else if (chartType === "Subjectivity") {
+      const subjectivityColorScaling = d3
+        .scaleLinear()
+        .domain([0, 1])
+        .range(["#ECECEC", "#4467C4"]);
+
+      const legendWidth = 20;
+      const legendHeight = 200;
+
+      const legendSvg = legend
+        .append("svg")
+        .attr("width", legendWidth + 150)
+        .attr("height", legendHeight + 50);
+
+      const legendGroup = legendSvg
+        .append("g")
+        .attr("transform", `translate(0, 10)`);
+
+      const gradient = "subjectivityGradient";
+
+      const defs = legendGroup.append("defs");
+
+      const linearGradient = defs
+        .append("linearGradient")
+        .attr("id", gradient)
+        .attr("x1", "0%")
+        .attr("y1", "0%")
+        .attr("x2", "0%")
+        .attr("y2", "100%");
+
+      linearGradient
+        .append("stop")
+        .attr("offset", "0%")
+        .attr("stop-color", "#4467C4");
+
+      linearGradient
+        .append("stop")
+        .attr("offset", "100%")
+        .attr("stop-color", "#ECECEC");
+
+      legendGroup
+        .append("rect")
+        .style("fill", `url(#${gradient})`)
+        .attr("width", legendWidth)
+        .attr("height", legendHeight);
+
+      const legendScale = d3
+        .scaleLinear()
+        .domain([1, 0])
+        .range([0, legendHeight]);
+
+      const legendAxis = d3
+        .axisRight(legendScale)
+        .tickValues([1, 0])
+        .tickFormat((d) => (d === 1 ? "High" : "Low"));
+
+      legendGroup
+        .append("g")
+        .attr("transform", `translate(${legendWidth}, 0)`)
+        .call(legendAxis);
+    }
   };
 
   render() {
